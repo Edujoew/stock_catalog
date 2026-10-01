@@ -1,0 +1,19 @@
+# Python / Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+
+
+# Django local database
+db.sqlite3
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
