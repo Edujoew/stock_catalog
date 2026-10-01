@@ -1,0 +1,204 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Product Form - StockManager{% endblock %}
+
+{% block content %}
+<div class="pf-wrap">
+
+    <div class="pf-header">
+        <div class="pf-header-icon"><i class="bi bi-box-seam"></i></div>
+        <div>
+            <h4 class="pf-header-title">Product Details Form</h4>
+            <p class="pf-header-sub">Fill in the fields below to add or update a stock item</p>
+        </div>
+    </div>
+
+    <div class="pf-layout">
+        <!-- Left: Form -->
+        <div class="pf-card">
+            <form method="post" enctype="multipart/form-data" class="pf-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <div class="pf-actions">
+                    <a href="{% url 'product_list' %}" class="pf-cancel">
+                        <i class="bi bi-arrow-left"></i> Cancel
+                    </a>
+                    <button type="submit" class="pf-save">
+                        <i class="bi bi-check-lg"></i> Save Product
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Right: Tips panel -->
+        <div class="pf-tips">
+            <div class="pf-tip-head">
+                <i class="bi bi-lightbulb"></i> Tips
+            </div>
+            <ul class="pf-tip-list">
+                <li><i class="bi bi-check-circle-fill"></i> Use a clear, descriptive product name.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Price should be in KES without commas.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Set quantity to 0 to mark as out of stock.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Upload a square product image for best display.</li>
+                <li><i class="bi bi-check-circle-fill"></i> Items with quantity ≤ 5 show as Low Stock.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.pf-wrap{ max-width:860px; }
+
+.pf-header{
+    display:flex;
+    align-items:center;
+    gap:0.9rem;
+    margin-bottom:1.6rem;
+}
+.pf-header-icon{
+    width:46px; height:46px;
+    flex-shrink:0;
+    border-radius:12px;
+    background:linear-gradient(135deg,var(--accent),#60a5fa);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem;
+}
+.pf-header-title{ font-weight:800; color:var(--navy); font-size:1.2rem; margin-bottom:0.1rem; }
+.pf-header-sub{ font-size:0.85rem; color:var(--muted); margin-bottom:0; }
+
+.pf-layout{
+    display:grid;
+    grid-template-columns:1fr 0.7fr;
+    gap:1.4rem;
+    align-items:start;
+}
+@media (max-width:780px){ .pf-layout{ grid-template-columns:1fr; } }
+
+.pf-card{
+    background:#fff;
+    border-radius:16px;
+    border:1px solid var(--border);
+    padding:2rem;
+    box-shadow:0 2px 8px rgba(15,23,42,0.04);
+    animation:pfIn .45s ease both;
+}
+@keyframes pfIn{ from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+
+.pf-form p{ margin-bottom:1.1rem; }
+.pf-form label{
+    display:block;
+    font-weight:700;
+    font-size:0.78rem;
+    color:var(--navy);
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+    margin-bottom:6px;
+}
+.pf-form input,
+.pf-form select,
+.pf-form textarea{
+    width:100%;
+    border:1.5px solid var(--border);
+    border-radius:9px;
+    padding:11px 14px;
+    font-size:0.93rem;
+    font-family:'Inter',sans-serif;
+    transition:border-color .2s ease, box-shadow .2s ease;
+    background:#fff;
+}
+.pf-form input:focus,
+.pf-form select:focus,
+.pf-form textarea:focus{
+    outline:none;
+    border-color:var(--accent);
+    box-shadow:0 0 0 4px rgba(37,99,235,0.08);
+}
+.pf-form input[type="file"]{
+    padding:8px 10px;
+    background:#f8fafc;
+    font-size:0.85rem;
+    cursor:pointer;
+}
+
+.pf-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:1.6rem;
+    padding-top:1.2rem;
+    border-top:1px solid #f1f5f9;
+}
+.pf-cancel{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    padding:0.6rem 1.3rem;
+    border-radius:9px;
+    border:1.5px solid var(--border);
+    color:var(--muted);
+    font-weight:700;
+    font-size:0.88rem;
+    text-decoration:none;
+    transition:background .15s ease;
+}
+.pf-cancel:hover{ background:#f8fafc; color:var(--navy); }
+.pf-save{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:var(--accent);
+    color:#fff;
+    border:none;
+    padding:0.6rem 1.6rem;
+    border-radius:9px;
+    font-weight:700;
+    font-size:0.88rem;
+    cursor:pointer;
+    transition:background .15s ease, transform .15s ease;
+}
+.pf-save:hover{ background:var(--accent-hover); transform:translateY(-1px); }
+
+/* Tips panel */
+.pf-tips{
+    background:#fff;
+    border-radius:16px;
+    border:1px solid var(--border);
+    padding:1.6rem;
+    box-shadow:0 2px 8px rgba(15,23,42,0.04);
+}
+.pf-tip-head{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-weight:800;
+    color:var(--accent);
+    font-size:0.88rem;
+    margin-bottom:1.1rem;
+    padding-bottom:0.8rem;
+    border-bottom:1px solid var(--border);
+}
+.pf-tip-list{
+    list-style:none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:0.8rem;
+}
+.pf-tip-list li{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    font-size:0.83rem;
+    color:var(--muted);
+    line-height:1.5;
+}
+.pf-tip-list li i{
+    color:#22c55e;
+    font-size:0.8rem;
+    margin-top:2px;
+    flex-shrink:0;
+}
+</style>
+{% endblock %}

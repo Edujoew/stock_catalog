@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Inventory Management System{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --navy:#0f172a;
+            --navy-mid:#1e293b;
+            --accent:#2563eb;
+            --accent-hover:#1d4ed8;
+            --accent-light:#eff6ff;
+            --surface:#f1f5f9;
+            --border:#e2e8f0;
+            --text:#1e293b;
+            --muted:#64748b;
+            --sidebar-w:240px;
+        }
+        *, *::before, *::after{ box-sizing:border-box; }
+        body{
+            font-family:'Inter', sans-serif;
+            background:var(--surface);
+            color:var(--text);
+            margin:0;
+            display:flex;
+            flex-direction:column;
+            min-height:100vh;
+        }
+
+        /* ===== TOPBAR ===== */
+        .topbar{
+            background:var(--navy);
+            height:46px;
+            display:flex;
+            align-items:center;
+            position:fixed;
+            top:0; left:0; right:0;
+            z-index:100;
+            border-bottom:1px solid rgba(255,255,255,0.06);
+        }
+        .topbar-inner{
+            width:100%;
+            padding:0 1.5rem;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .topbar-brand{
+            display:flex;
+            align-items:center;
+            gap:9px;
+            text-decoration:none;
+        }
+        .topbar-logo{
+            width:28px; height:28px;
+            border-radius:7px;
+            background:linear-gradient(135deg,var(--accent),#60a5fa);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-size:0.9rem;
+        }
+        .topbar-name{
+            font-weight:800;
+            font-size:0.95rem;
+            color:#fff;
+            letter-spacing:-0.2px;
+        }
+        .topbar-tag{
+            font-size:0.62rem;
+            font-weight:600;
+            color:rgba(255,255,255,0.4);
+            text-transform:uppercase;
+            letter-spacing:0.5px;
+        }
+        .topbar-right{
+            display:flex;
+            align-items:center;
+            gap:1rem;
+            font-size:0.75rem;
+            color:rgba(255,255,255,0.4);
+        }
+        .topbar-status{
+            display:flex;
+            align-items:center;
+            gap:6px;
+        }
+        .status-dot{
+            width:7px; height:7px;
+            border-radius:50%;
+            background:#22c55e;
+            animation:blink 2s ease-in-out infinite;
+        }
+        @keyframes blink{ 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+        /* ===== BURGER (mobile topbar) ===== */
+        .nav-burger{
+            display:none;
+            flex-direction:column;
+            gap:5px;
+            cursor:pointer;
+            padding:4px;
+            background:none;
+            border:none;
+        }
+        .nav-burger span{
+            width:20px; height:2px;
+            background:rgba(255,255,255,0.7);
+            border-radius:2px;
+            display:block;
+        }
+
+        /* ===== LAYOUT SHELL ===== */
+        .app-shell{
+            display:flex;
+            flex:1;
+            padding-top:46px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar{
+            width:var(--sidebar-w);
+            flex-shrink:0;
+            background:#fff;
+            border-right:1px solid var(--border);
+            position:fixed;
+            top:46px;
+            bottom:0;
+            left:0;
+            display:flex;
+            flex-direction:column;
+            overflow-y:auto;
+            transition:transform .25s ease;
+            z-index:90;
+        }
+        .sidebar-section{
+            padding:1rem 1rem 0.5rem;
+        }
+        .sidebar-label{
+            font-size:0.65rem;
+            font-weight:700;
+            color:var(--muted);
+            text-transform:uppercase;
+            letter-spacing:0.7px;
+            padding:0 0.5rem;
+            margin-bottom:0.4rem;
+        }
+        .sidebar-link{
+            display:flex;
+            align-items:center;
+            gap:9px;
+            padding:0.6rem 0.75rem;
+            border-radius:9px;
+            font-weight:600;
+            font-size:0.875rem;
+            color:var(--muted);
+            text-decoration:none;
+            transition:background .15s ease, color .15s ease;
+            margin-bottom:2px;
+        }
+        .sidebar-link i{ font-size:1rem; }
+        .sidebar-link:hover{
+            background:var(--surface);
+            color:var(--navy);
+        }
+        .sidebar-link.active{
+            background:var(--accent-light);
+            color:var(--accent);
+        }
+        .sidebar-link.sidebar-cta{
+            background:var(--accent);
+            color:#fff;
+            margin-top:0.6rem;
+        }
+        .sidebar-cta:hover{
+            background:var(--accent-hover);
+            color:#fff;
+        }
+        .sidebar-footer{
+            margin-top:auto;
+            padding:1rem;
+            border-top:1px solid var(--border);
+            font-size:0.75rem;
+            color:var(--muted);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content{
+            flex:1;
+            margin-left:var(--sidebar-w);
+            min-height:calc(100vh - 46px);
+            display:flex;
+            flex-direction:column;
+        }
+        .page-body{
+            flex:1;
+            padding:2rem 2rem;
+            max-width:1100px;
+            width:100%;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer{
+            margin-left:var(--sidebar-w);
+            background:#fff;
+            border-top:1px solid var(--border);
+            padding:0.9rem 2rem;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            flex-wrap:wrap;
+            gap:0.5rem;
+        }
+        .footer-brand{
+            display:flex;
+            align-items:center;
+            gap:7px;
+            font-weight:700;
+            color:var(--navy);
+            font-size:0.82rem;
+        }
+        .footer-brand .fi{
+            width:20px; height:20px;
+            border-radius:5px;
+            background:linear-gradient(135deg,var(--accent),#60a5fa);
+            display:flex; align-items:center; justify-content:center;
+            color:#fff; font-size:0.58rem;
+        }
+        .footer-copy{ font-size:0.76rem; color:var(--muted); }
+
+        /* ===== MOBILE ===== */
+        @media (max-width:768px){
+            .nav-burger{ display:flex; }
+            .sidebar{
+                transform:translateX(-100%);
+            }
+            .sidebar.open{
+                transform:translateX(0);
+                box-shadow:4px 0 20px rgba(0,0,0,0.15);
+            }
+            .main-content, .site-footer{
+                margin-left:0;
+            }
+            .page-body{ padding:1.4rem 1rem; }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Fixed Topbar -->
+    <div class="topbar">
+        <div class="topbar-inner">
+            <a class="topbar-brand" href="{% url 'product_list' %}">
+                <div class="topbar-logo"><i class="bi bi-boxes"></i></div>
+                <div>
+                    <span class="topbar-name">StockHub</span>
+                    <span class="topbar-tag d-block">Inventory System</span>
+                </div>
+            </a>
+            <div class="topbar-right">
+                <div class="topbar-status">
+                    <span class="status-dot"></span>
+                    <span>System Operational</span>
+                </div>
+                <span>Inventory Portal &copy; 2026</span>
+                <button class="nav-burger" id="navBurger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-label">Navigation</div>
+                <a class="sidebar-link active" href="{% url 'product_list' %}">
+                    <i class="bi bi-grid-3x3-gap"></i> Catalog
+                </a>
+                <a class="sidebar-link sidebar-cta" href="{% url 'product_create' %}">
+                    <i class="bi bi-plus-lg"></i> Add Product
+                </a>
+            </div>
+            <div class="sidebar-footer">
+                <div style="font-weight:700;color:var(--navy);margin-bottom:2px;">StockHub Portal</div>
+                <div>Inventory Management v1.0</div>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main-content">
+            <main class="page-body">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-brand">
+            <div class="fi"><i class="bi bi-boxes"></i></div>
+            StockHub Portal
+        </div>
+        <span class="footer-copy">&copy; 2026 Stock Management System. All rights reserved.</span>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('navBurger').addEventListener('click', function(){
+            document.getElementById('sidebar').classList.toggle('open');
+        });
+    </script>
+</body>
+</html>

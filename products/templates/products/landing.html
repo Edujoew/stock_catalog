@@ -1,0 +1,180 @@
+{% extends 'products/base.html' %}
+
+{% block title %}Welcome - StockHub Portal{% endblock %}
+
+{% block content %}
+<div class="ln-wrap">
+    <!-- Welcome Header / Hero Card -->
+    <div class="ln-hero-card">
+        <div class="ln-hero-icon"><i class="bi bi-box-seam"></i></div>
+        <div class="ln-hero-content">
+            <span class="ln-eyebrow"><i class="bi bi-shield-check me-1"></i> Enterprise Stock Portal v1.0</span>
+            <h1 class="ln-title">Smart Inventory &amp; Stock Control</h1>
+            <p class="ln-sub">Your central hub for tracking real-time shop inventory, updating prices, managing quantities, and handling product media seamlessly.</p>
+            <div class="ln-hero-actions">
+                <a href="{% url 'product_list' %}" class="ln-btn-primary">
+                    <i class="bi bi-speedometer2"></i> Open Catalog Dashboard
+                </a>
+                <a href="{% url 'product_create' %}" class="ln-btn-secondary">
+                    <i class="bi bi-plus-circle"></i> Add New Product
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features / Quick Highlights Grid -->
+    <div class="ln-grid">
+        <div class="ln-card">
+            <div class="ln-card-icon" style="background:#eff6ff;color:#2563eb;"><i class="bi bi-lightning-charge"></i></div>
+            <h5 class="ln-card-title">Real-Time Tracking</h5>
+            <p class="ln-card-text">Instantly view total items, stock health counts, and live updates across your catalog inventory.</p>
+        </div>
+        <div class="ln-card">
+            <div class="ln-card-icon" style="background:#f0fdf4;color:#16a34a;"><i class="bi bi-check-circle"></i></div>
+            <h5 class="ln-card-title">Automated Statuses</h5>
+            <p class="ln-card-text">Items dynamically categorize into In Stock, Low Stock, or Out of Stock based on quantities.</p>
+        </div>
+        <div class="ln-card">
+            <div class="ln-card-icon" style="background:#fefce8;color:#ca8a04;"><i class="bi bi-images"></i></div>
+            <h5 class="ln-card-title">Product Media Support</h5>
+            <p class="ln-card-text">Seamlessly upload and manage product pictures with clean visual previews in the stock table.</p>
+        </div>
+    </div>
+</div>
+
+<style>
+.ln-wrap{ max-width:960px; margin:0 auto; animation:lnIn .45s ease both; }
+@keyframes lnIn{ from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+
+.ln-hero-card{
+    background:#fff;
+    border-radius:16px;
+    border:1px solid var(--border);
+    padding:2.5rem;
+    box-shadow:0 2px 8px rgba(15,23,42,0.04);
+    display:flex;
+    align-items:flex-start;
+    gap:1.5rem;
+    margin-bottom:1.6rem;
+}
+@media (max-width:768px){
+    .ln-hero-card{ flex-direction:column; padding:1.8rem; }
+}
+
+.ln-hero-icon{
+    width:56px; height:56px;
+    flex-shrink:0;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--accent),#60a5fa);
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.5rem;
+}
+
+.ln-eyebrow{
+    display:inline-block;
+    background:var(--accent-light, #eff6ff);
+    color:var(--accent);
+    font-weight:700;
+    font-size:0.75rem;
+    padding:0.3rem 0.85rem;
+    border-radius:50px;
+    margin-bottom:0.8rem;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+}
+
+.ln-title{
+    font-weight:800;
+    color:var(--navy);
+    font-size:1.75rem;
+    margin-bottom:0.6rem;
+    letter-spacing:-0.5px;
+}
+
+.ln-sub{
+    font-size:0.95rem;
+    color:var(--muted);
+    line-height:1.6;
+    margin-bottom:1.8rem;
+    max-width:680px;
+}
+
+.ln-hero-actions{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+}
+
+.ln-btn-primary{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:var(--accent);
+    color:#fff;
+    padding:0.7rem 1.5rem;
+    border-radius:10px;
+    font-weight:700;
+    font-size:0.9rem;
+    text-decoration:none;
+    transition:background .15s ease, transform .15s ease;
+}
+.ln-btn-primary:hover{ background:var(--accent-hover); color:#fff; transform:translateY(-1px); }
+
+.ln-btn-secondary{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    background:#fff;
+    color:var(--navy);
+    border:1.5px solid var(--border);
+    padding:0.7rem 1.4rem;
+    border-radius:10px;
+    font-weight:700;
+    font-size:0.9rem;
+    text-decoration:none;
+    transition:all .15s ease;
+}
+.ln-btn-secondary:hover{ background:#f8fafc; border-color:var(--accent); color:var(--accent); }
+
+/* GRID CARDS */
+.ln-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.2rem;
+}
+@media (max-width:850px){ .ln-grid{ grid-template-columns:1fr; } }
+
+.ln-card{
+    background:#fff;
+    border-radius:16px;
+    border:1px solid var(--border);
+    padding:1.6rem;
+    box-shadow:0 2px 8px rgba(15,23,42,0.04);
+    transition:transform .15s ease;
+}
+.ln-card:hover{ transform:translateY(-2px); }
+
+.ln-card-icon{
+    width:42px; height:42px;
+    border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.15rem;
+    margin-bottom:1.1rem;
+}
+
+.ln-card-title{
+    font-weight:800;
+    color:var(--navy);
+    font-size:0.98rem;
+    margin-bottom:0.5rem;
+}
+
+.ln-card-text{
+    font-size:0.85rem;
+    color:var(--muted);
+    line-height:1.5;
+    margin-bottom:0;
+}
+</style>
+{% endblock %}
